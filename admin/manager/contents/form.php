@@ -60,7 +60,14 @@
               </p>
               <p> <span class="req">Image</span>
                 <label>image<span>(Required Field)</span></label>
-                <input type="file" name = "image"  value = "<?php echo (isset($editData))? $editData['image']: ''; ?>" class="field size1" />
+                <input type="file" name = "image" class="field size1" />
+                <?php 
+                  if(isset($editData)):
+                ?>
+                <img src="<?php echo "../images/contents/".$editData['image']; ?>"  width = "100" alt="">
+                <?php 
+                  endif;
+                ?>
               </p>
               <p> <span class="req">max 100 symbols</span>
                 <label>summary<span>(Required Field)</span></label>

@@ -152,6 +152,18 @@ if(isset($_POST['save'])){
         }
       }
     }
+    //user defined function for pages
+    function getPage($page_id){
+      global $conn;
+      $sql = "SELECT title from pages where id = '$page_id'";
+      $query = $conn->query($sql);
+      if($query){
+        $page = array();
+        $page = $query->fetch_assoc();
+        //debugger($page,true);
+        return $page['title'];
+      }
+    }
     //print_r($data);
   ?>
   <div class="shell">
