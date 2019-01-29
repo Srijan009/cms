@@ -9,33 +9,33 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <th>S.N</th>
+                <th>title</th>
                 <th>url</th>
                 <th>seotitle</th>
                 <th>seo desc</th>
-                <th>Status</th>
+                <th>Date</th>
                 <th width="110" class="ac">Content Control</th>
               </tr>
               <?php
-              if($count > 0):
+              if(isset($count) && $count > 0):
                 $i = 1;
-                foreach($pages as $page ):
+                foreach($contents as $content ):
               ?>
               <tr>
                 <td><?php echo $i; $i++;?></td>
-                <td><?php echo $page['title']; ?></td>
-                <td><?php echo $page['url']; ?></td>
-                <td><?php echo $page['seotitle']; ?></td>
-                <td><?php echo $page['seodesc']; ?></td>
-                <td><?php echo ($page['status'])? 'active':'Inactive'; ?></td>
+                <td><?php echo $content['title']; ?></td>
+                <td><?php echo $content['url']; ?></td>
+                <td><?php echo $content['seotitle']; ?></td>
+                <td><?php echo $content['seodesc']; ?></td>
+                <td><?php echo $content['postdate']; ?></td>
                 <td>
-                    <a href="?del=<?php echo $page['id']; ?>" onclick = "return confirm('Are you sure want to delete')" class="ico del">Delete</a>
-                    <a href="?edit=<?php echo $page['id']; ?>" class="ico edit">Edit</a>
+                    <a href="?del=<?php echo $content['id']; ?>" onclick = "return confirm('Are you sure want to delete')" class="ico del">Delete</a>
+                    <a href="?edit=<?php echo $content['id']; ?>" class="ico edit">Edit</a>
                     </td>
               </tr>
               <?php 
                 endforeach;
-            else:
-                
+            else:                
               ?>
               <tr><td>No record found</td></tr>
               <?php endif; ?>

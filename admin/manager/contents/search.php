@@ -10,11 +10,10 @@
                 <p class="inline-field">
                     <label>Search By</label>
                     <select name = "searchBy" class="field size3">
-                    <option value="id" selected = "selected">id</option>
-                    <option value="url" selected = "selected">url</option>
+                    <option value="title" selected = "selected">title</option>
+                    <option value="url">url</option>
                     <option value="seotitle">seo title</option>
                     <option value="seodesc">seo desc</option>
-                    <option value="status">status</option>
                     </select>
                 </p>
               <p> <span class="req">Search Keyword</span>

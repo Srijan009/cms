@@ -15,7 +15,7 @@
             <!-- Form -->
             <div class="form">
               <p class="inline-field">
-              <label>status</label>
+              <label>pages</label>
               <?php
                 $sql = "SELECT * FROM pages";
                 $query = $conn->query($sql);
@@ -30,9 +30,15 @@
               ?>
                 <select name = "page_id" class="field size3">
                 <?php 
-                  foreach($pages as $page ):
+                  foreach($pages as $page ):                    
+                if(isset($editData)){
+                  $selected = '';
+                  if($editData['page_id'] == $page['id']){
+                    $selected = 'selected = "selected"';
+                  }
+                }
                 ?>
-                  <option value="<?php echo $page['id']; ?>"><?php echo $page['title']; ?></option>
+                  <option value="<?php echo $page['id']; ?>" <?php echo $selected; ?>><?php echo $page['title']; ?></option>
                   <?php endforeach; ?>
                 </select>
               </p>
@@ -58,11 +64,11 @@
               </p>
               <p> <span class="req">max 100 symbols</span>
                 <label>summary<span>(Required Field)</span></label>
-                <textarea name = "summary" class="field size1" rows="10" cols="30"></textarea>
+                <textarea name = "summary" class="field size1" rows="10" cols="30"><?php echo (isset($editData))? $editData['summary']: ''; ?></textarea>
               </p>
               <p> 
                 <label>detail <span>(Required Field)</span></label>
-                <textarea name = "detail" id = "detail" class="field size1" rows="10" cols="30"></textarea>
+                <textarea name = "detail" id = "detail" class="field size1" rows="10" cols="30"><?php echo (isset($editData))? $editData['detail']: ''; ?></textarea>
               </p>
             </div>
             <!-- End Form -->
@@ -72,7 +78,7 @@
             ?>
             <div class="buttons">
               <input type="submit" name = "save" class="button" value="save" />
-              <input type="hidden" name = "page_id" class="button" value="<?php echo $editData['id']; ?>" />
+              <input type="hidden" name = "content_id" class="button" value="<?php echo $editData['id']; ?>" />
             </div>
             <?php else: ?>
             <div class="buttons">

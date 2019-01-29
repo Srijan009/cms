@@ -16,7 +16,7 @@
                 <th width="110" class="ac">Content Control</th>
               </tr>
               <?php
-              if($count > 0):
+              if(isset($count) && $count > 0):
                 $i = 1;
                 foreach($users as $user ):
               ?>

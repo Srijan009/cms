@@ -7,7 +7,7 @@
  ?>
   <?php include 'inc/header.php'; ?>
   <?php
-  //create users part
+  //create contents part
   if(isset($_POST['create'])){
     //debugger($_POST,true);
     $page_id = $_POST['page_id'];    
@@ -16,16 +16,17 @@
     $seotitle = $_POST['seotitle'];
     $seodesc = $_POST['seodesc'];
     $image = $_FILES['image'];
-    $summary = $_POST['summary'];
-    $detail = $_POST['detail'];
-      //debugger($image,true);
+    $summary = mysqli_real_escape_string($conn,$_POST['summary']);
+    $detail = mysqli_real_escape_string($conn,$_POST['detail']);
+     // debugger($image,true);
       // image path
     $image_path = "../images/contents/";
     if(!empty($image['name'])){
       $move = move_uploaded_file($image['tmp_name'],$image_path.$image['name']);
     }
     if($move){
-      $image_name = $image['name'];
+       $image_name = $image['name'];
+      //exit;
     }
     
    // debugger($_FILES,true);
@@ -35,6 +36,7 @@
     // exit;
     if(!empty($title)){
       $sql = "INSERT INTO $tablename(page_id,title,url,seotitle,seodesc,image,summary,detail) VALUES('$page_id','$title','$url','$seotitle','$seodesc','$image_name','$summary','$detail')";
+      //die($sql);
       $query = $conn->query($sql);
       if($query){
         $_SESSION['success'] = "data inserted successfully";
@@ -62,11 +64,11 @@
     $query = $conn->query($sql);
     if($query){
       $_SESSION['success'] = "data deleted successfully";
-      header("location:pages.php");
+      header("location:contents.php");
       exit;
     }else{
       $_SESSION['error'] = "error deleting data";
-      header("location:pages.php");
+      header("location:contents.php");
       exit;
     }
     
@@ -77,28 +79,38 @@
     $sql = "SELECT * FROM $tablename WHERE  id = $id";
     $query = $conn->query($sql);
     $editData = $query->fetch_assoc();
-    // print_r($editData);
-    // exit;
+    //debugger($editData,true);
   }
 if(isset($_POST['save'])){
+  $content_id = $_POST['content_id'];
+  $page_id = $_POST['page_id'];    
   $title = $_POST['title'];
+  $url = $_POST['url'];
   $seotitle = $_POST['seotitle'];
   $seodesc = $_POST['seodesc'];
-  $url = $_POST['url'];
-  $status = $_POST['status'];
-  $page_id = $_POST['page_id'];
-  $sql = "UPDATE  $tablename SET  title = '$title' , seotitle = '$seotitle' , url = '$url', seodesc = '$seodesc' , status = '$status' WHERE id = $page_id";
+  $image = $_FILES['image'];
+  $summary = $_POST['summary'];
+  $detail = $_POST['detail'];
+  $image_path = "../images/contents/";
+  if(!empty($image['name'])){
+    $move = move_uploaded_file($image['tmp_name'],$image_path.$image['name']);
+  }
+  if($move){
+     $image_name = $image['name'];
+    //exit;
+  }
+  $sql = "UPDATE  $tablename SET page_id = '$page_id', title = '$title' , seotitle = '$seotitle' , url = '$url', seodesc = '$seodesc' , image = '$image_name' WHERE id = $content_id";
   //print_r($_POST);
   //  print_r($sql);
   //    exit;
   $query = $conn->query($sql);
   if($query){
     $_SESSION['success'] = "data edited successfully";
-    header("location:pages.php");
+    header("location:contents.php");
     exit;
   }else{
     $_SESSION['error'] = "error editing data";
-    header("location:pages.php");
+    header("location:contents .php");
     exit;
   }
   
@@ -107,18 +119,22 @@ if(isset($_POST['save'])){
     if(isset($_POST['search'])){
       $searchBy = $_POST['searchBy'];
       $searchKey = $_POST['searchKey'];
+      //debugger($_POST,true);
      //print_r($_POST);
       $sql = "SELECT * FROM $tablename WHERE $searchBy like '%$searchKey%'";
+      //die($sql);
       $query = $conn->query($sql);
       if($query){
         if($query->num_rows > 0 ){
           $count = $query->num_rows;
-          $pages = array();
+          // echo $count;
+          // exit;
+          $contents = array();
           while($row = $query->fetch_assoc()){
-            $pages[] = $row;
+            $contents[] = $row;
           }
         }else{
-          $pages = "No record found";
+          $contents = "No record found";
         }
       }
     }else{
@@ -127,12 +143,12 @@ if(isset($_POST['save'])){
       if($query){
         if($query->num_rows > 0 ){
           $count = $query->num_rows;
-          $pages = array();
+          $contents = array();
           while($row = $query->fetch_assoc()){
-            $pages[] = $row;
+            $contents[] = $row;
           }
         }else{
-          $pages = "No record found";
+          $contents = "No record found";
         }
       }
     }
